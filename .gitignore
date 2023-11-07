@@ -1,0 +1,7 @@
+config.json
+config.test.json
+.env
+__pycache__
+.streamlit/secrets.toml
+*.ipynb
+.DS_Store

@@ -1,0 +1,18 @@
+{
+    "bybit":{
+        "TestAccountInverse":{
+            "API_KEY":"",
+            "API_SECRET":"",
+            "ACCOUNT_TYPE":"CONTRACT",
+            "CATEGORY":"inverse",
+            "COIN":"BTC"
+        },
+        "TestAccount":{
+            "API_KEY":"",
+            "API_SECRET":"",
+            "ACCOUNT_TYPE":"UNIFIED",
+            "CATEGORY":"linear",
+            "COIN":"USDT"
+        }
+    }
+}

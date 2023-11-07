@@ -1,0 +1,27 @@
+steps:
+- name: 'ubuntu'
+  args: ['bash', './create_env.sh']
+  env:
+    - 'CONFIG_JSON_BASE64=$_CONFIG_JSON_BASE64'
+    - 'STREAMLIT_SECRETS_BASE64=$_STREAMLIT_SECRETS_BASE64'
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'build-docker-image'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}/$SHORT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'push-docker-image'
+  args: ['push', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}/$SHORT_SHA']
+  waitFor:
+    - 'build-docker-image'
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'deploy-cloud-run'
+  args: ['run', 'deploy', '${_SERVICE_NAME}', '--image', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}/$SHORT_SHA', '--region', '${_REGION}', '--platform', 'managed', '--memory', '${_MEMORY}', '--vpc-connector', 'bybit', '--vpc-egress', 'all-traffic']
+  waitFor:
+    - 'push-docker-image'
+substitutions:
+  _REGION: asia-southeast1
+  _SERVICE_NAME: bybit-monitor
+  _CONFIG_JSON_BASE64: ewogICAgImJ5Yml0Ijp7CiAgICAgICAgCiAgICB9Cn0=
+  _STREAMLIT_SECRETS_BASE64: cGFzc3dvcmQgPSAic3RyZWFtbGl0MTIzIg==
+images:
+  - gcr.io/$PROJECT_ID/${_SERVICE_NAME}/$SHORT_SHA
+timeout: 86400s
