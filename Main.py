@@ -28,7 +28,7 @@ def check_password():
     return False
 
 
-if not check_password():
+if not check_password() and not DEBUG:
     st.stop()  # Do not continue if check_password is not True.
 
 
@@ -83,6 +83,7 @@ for account_name in bybit_acccounts:
     bar.progress(bar_i * 1 / len(bybit_acccounts))
 
 df['time'] = pd.to_datetime(df['time'] , unit='ms')
+df.set_index("account_name", inplace=True)
 df
 
 st.markdown("## Closed Pnl")
