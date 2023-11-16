@@ -37,15 +37,27 @@ class Bybit:
 
     def get_balance(self):
         balance = self.session.get_wallet_balance(accountType=self.account_type, coin=self.coin)
-        coin = balance["result"]["list"][0]["coin"][0]
-        self.wallet.update(
-            coin['equity'],
-            coin['walletBalance'],
-            coin['availableToWithdraw'],
-            coin['cumRealisedPnl'],
-            coin['unrealisedPnl'],
-            balance["time"]
-        )
+        if self.account_type == "UNIFIED":
+            total = balance["result"]["list"][0]
+            coin = balance["result"]["list"][0]["coin"][0]
+            self.wallet.update(
+                total['totalEquity'],
+                total['totalWalletBalance'],
+                total['totalAvailableBalance'],
+                coin['cumRealisedPnl'],
+                total['totalPerpUPL'],
+                balance["time"]
+            )
+        else:
+            coin = balance["result"]["list"][0]["coin"][0]
+            self.wallet.update(
+                coin['equity'],
+                coin['walletBalance'],
+                coin['availableToWithdraw'],
+                coin['cumRealisedPnl'],
+                coin['unrealisedPnl'],
+                balance["time"]
+            )
 
     
     def get_closed_pnl(self, start_time=None):
