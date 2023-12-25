@@ -71,7 +71,7 @@ st.markdown("# Bybit Account")
 bybit_acccounts = config['bybit']
 
 df = pd.DataFrame(
-    columns=['account_name', 'wallet_balance', 'cum_realised_pnl', 'unrealised_pnl', 'time'],
+    columns=['account_name', 'wallet_balance', 'cum_realised_pnl', 'unrealised_pnl', 'unrealised_%', 'time'],
 )
 select_choices = ("--- Please select Account ---",)
 bar = st.progress(0)
