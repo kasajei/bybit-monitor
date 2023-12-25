@@ -48,7 +48,7 @@ def fetch_wallet(account_name, account, datetime):
         'wallet_balance': bybit.wallet.wallet_balance,
         'cum_realised_pnl': bybit.wallet.cum_realised_pnl,
         'unrealised_pnl': bybit.wallet.unrealised_pnl,
-        'unrealised_%': round(bybit.wallet.unrealised_pnl/ bybit.wallet.wallet_balance * 100, 2),
+        'unrealised_%': round(float(bybit.wallet.unrealised_pnl)/ float(bybit.wallet.wallet_balance) * 100, 2),
         'time': bybit.wallet.time,
     }
 
